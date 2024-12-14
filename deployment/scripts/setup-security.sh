@@ -5,6 +5,16 @@ set -e
 
 echo "Starting security setup..."
 
+# Default values if not set in environment
+SSH_PORT=${SSH_PORT:-22}
+UFW_ALLOWED_PORTS=${UFW_ALLOWED_PORTS:-"80,443"}
+FAIL2BAN_FINDTIME=${FAIL2BAN_FINDTIME:-600}
+FAIL2BAN_BANTIME=${FAIL2BAN_BANTIME:-3600}
+FAIL2BAN_MAXRETRY=${FAIL2BAN_MAXRETRY:-3}
+SSH_MAX_AUTH_TRIES=${SSH_MAX_AUTH_TRIES:-3}
+SSH_CLIENT_ALIVE_INTERVAL=${SSH_CLIENT_ALIVE_INTERVAL:-300}
+SSH_CLIENT_ALIVE_COUNT_MAX=${SSH_CLIENT_ALIVE_COUNT_MAX:-2}
+
 # Function to detect OS
 detect_os() {
     if [ -f /etc/os-release ]; then
@@ -25,38 +35,35 @@ setup_firewall() {
     echo "Setting up firewall..."
     
     if [[ "$OS" == *"Ubuntu"* ]] || [[ "$OS" == *"Debian"* ]]; then
-        # Install UFW if not present
         apt-get install -y ufw
-
-        # Reset UFW to default
         ufw --force reset
-        
-        # Default policies
         ufw default deny incoming
         ufw default allow outgoing
         
-        # Allow SSH (modify port if different)
-        ufw allow 22/tcp
+        # Allow SSH on custom port
+        ufw allow ${SSH_PORT}/tcp
         
-        # Allow HTTP/HTTPS
-        ufw allow 80/tcp
-        ufw allow 443/tcp
+        # Allow other configured ports
+        IFS=',' read -ra PORTS <<< "$UFW_ALLOWED_PORTS"
+        for port in "${PORTS[@]}"; do
+            ufw allow ${port}/tcp
+        done
         
-        # Enable UFW
         ufw --force enable
         
     elif [[ "$OS" == *"CentOS"* ]] || [[ "$OS" == *"Red Hat"* ]]; then
-        # Install firewalld if not present
         yum install -y firewalld
-        
-        # Start and enable firewalld
         systemctl start firewalld
         systemctl enable firewalld
         
         # Configure firewall rules
-        firewall-cmd --permanent --add-service=ssh
-        firewall-cmd --permanent --add-service=http
-        firewall-cmd --permanent --add-service=https
+        firewall-cmd --permanent --add-port=${SSH_PORT}/tcp
+        
+        IFS=',' read -ra PORTS <<< "$UFW_ALLOWED_PORTS"
+        for port in "${PORTS[@]}"; do
+            firewall-cmd --permanent --add-port=${port}/tcp
+        done
+        
         firewall-cmd --reload
     fi
 }
@@ -66,20 +73,25 @@ harden_ssh() {
     echo "Hardening SSH configuration..."
     
     SSH_CONFIG="/etc/ssh/sshd_config"
-    
-    # Backup original config
     cp $SSH_CONFIG "${SSH_CONFIG}.backup"
+    
+    # Update SSH port if different from default
+    if [ "$SSH_PORT" != "22" ]; then
+        sed -i "s/#Port 22/Port ${SSH_PORT}/" $SSH_CONFIG
+    fi
     
     # SSH hardening configurations
     sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' $SSH_CONFIG
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' $SSH_CONFIG
     sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' $SSH_CONFIG
     
-    # Additional SSH security settings
-    echo "Protocol 2" >> $SSH_CONFIG
-    echo "MaxAuthTries 3" >> $SSH_CONFIG
-    echo "ClientAliveInterval 300" >> $SSH_CONFIG
-    echo "ClientAliveCountMax 2" >> $SSH_CONFIG
+    # Additional SSH security settings with environment variables
+    cat >> $SSH_CONFIG << EOF
+Protocol 2
+MaxAuthTries ${SSH_MAX_AUTH_TRIES}
+ClientAliveInterval ${SSH_CLIENT_ALIVE_INTERVAL}
+ClientAliveCountMax ${SSH_CLIENT_ALIVE_COUNT_MAX}
+EOF
     
     # Restart SSH service
     if [[ "$OS" == *"Ubuntu"* ]] || [[ "$OS" == *"Debian"* ]]; then
@@ -142,17 +154,9 @@ EOF
         yum install -y fail2ban
     fi
     
-    # Configure fail2ban
-    cat > /etc/fail2ban/jail.local << EOF
-[DEFAULT]
-bantime = 3600
-findtime = 600
-maxretry = 3
-
-[sshd]
-enabled = true
-EOF
-
+    # Configure fail2ban with environment variables
+    configure_fail2ban
+    
     # Start fail2ban
     systemctl enable fail2ban
     systemctl start fail2ban
@@ -166,6 +170,20 @@ secure_shared_memory() {
     if ! grep -q "/dev/shm" /etc/fstab; then
         echo "tmpfs     /dev/shm     tmpfs     defaults,noexec,nosuid,nodev     0     0" >> /etc/fstab
     fi
+}
+
+# Configure fail2ban with environment variables
+configure_fail2ban() {
+    cat > /etc/fail2ban/jail.local << EOF
+[DEFAULT]
+bantime = ${FAIL2BAN_BANTIME}
+findtime = ${FAIL2BAN_FINDTIME}
+maxretry = ${FAIL2BAN_MAXRETRY}
+
+[sshd]
+enabled = true
+port = ${SSH_PORT}
+EOF
 }
 
 # Main execution

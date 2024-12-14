@@ -11,7 +11,7 @@ jobs:
     environment: production
 
     steps:
-      - uses: actions/checkout@v2.5.0
+      - uses: actions/checkout@v4.1.1
 
       - name: Configure SSH
         env:
@@ -27,6 +27,14 @@ jobs:
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          UFW_ALLOWED_PORTS: ${{ secrets.UFW_ALLOWED_PORTS }}
+          FAIL2BAN_FINDTIME: ${{ secrets.FAIL2BAN_FINDTIME }}
+          FAIL2BAN_BANTIME: ${{ secrets.FAIL2BAN_BANTIME }}
+          FAIL2BAN_MAXRETRY: ${{ secrets.FAIL2BAN_MAXRETRY }}
+          SSH_MAX_AUTH_TRIES: ${{ secrets.SSH_MAX_AUTH_TRIES }}
+          SSH_CLIENT_ALIVE_INTERVAL: ${{ secrets.SSH_CLIENT_ALIVE_INTERVAL }}
+          SSH_CLIENT_ALIVE_COUNT_MAX: ${{ secrets.SSH_CLIENT_ALIVE_COUNT_MAX }}
         run: |
           chmod +x ./deployment/scripts/deploy.sh
           ./deployment/scripts/deploy.sh

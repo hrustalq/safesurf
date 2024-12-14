@@ -1,0 +1,151 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Testing
+coverage
+.nyc_output
+/coverage
+*.lcov
+
+# Production
+dist
+build
+.next
+out
+*.tsbuildinfo
+
+# Environment
+.env*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.project
+.classpath
+*.launch
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+*.pem
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Docker
+docker-compose.override.yml
+.docker
+
+# SSL
+*.pem
+*.key
+*.crt
+*.cert
+*.der
+*.p7b
+*.p7c
+*.pfx
+*.p12
+
+# Next.js specific
+.next/
+out/
+next-env.d.ts
+.vercel
+.env*.local
+public/sw.js
+public/workbox-*.js
+.turbo
+
+# Vite specific
+.vite/
+*.local
+dist-ssr
+
+# NestJS specific
+/dist
+/node_modules
+/build
+
+# Backend specific
+backend/api/dist
+backend/api/coverage
+backend/api/node_modules
+
+# Frontend specific
+frontend/*/dist
+frontend/*/.cache
+frontend/*/.env
+frontend/*/build
+frontend/web/.next
+frontend/web/out
+frontend/*/node_modules
+frontend/*/.turbo
+frontend/*/.vercel
+
+# Infrastructure
+infra/nginx/ssl/*
+!infra/nginx/ssl/.gitkeep
+infra/data
+infra/logs
+
+# Misc
+.cache
+.turbo
+.vercel
+*.tgz
+.env*.local
+.eslintcache
+.stylelintcache
+*.bak
+*.tmp
+*.temp
+.history
+
+# Debug
+.debug/
+debug.log
+debug/
+
+# Package managers
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.yarn-integrity
+
+# Optional
+.github/*.yml
+!.github/workflows/*.yml
+.gitlab-ci.yml
+.travis.yml
