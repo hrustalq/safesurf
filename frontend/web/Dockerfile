@@ -25,9 +25,8 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during dev.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-EXPOSE 3000
-ENV PORT 3000
-# Add hostname to make it run properly with docker
+EXPOSE ${PORT:-3001}
+ENV PORT=${PORT:-3001}
 ENV HOSTNAME "0.0.0.0"
 
 CMD ["npm", "run", "dev"]
@@ -68,8 +67,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3000
-ENV PORT 3000
+EXPOSE ${PORT:-3001}
+ENV PORT=${PORT:-3001}
 ENV HOSTNAME "0.0.0.0"
 
 # server.js is created by next build from standalone output

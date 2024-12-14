@@ -46,11 +46,6 @@ class EnvironmentVariables {
   @IsOptional()
   LOG_LEVEL: string;
 
-  // Error Reporting
-  @IsUrl()
-  @IsOptional()
-  SENTRY_DSN: string;
-
   // Email
   @IsString()
   SMTP_HOST: string;
@@ -66,16 +61,6 @@ class EnvironmentVariables {
 
   @IsString()
   SMTP_FROM: string;
-
-  // Firebase
-  @IsString()
-  FIREBASE_PROJECT_ID: string;
-
-  @IsString()
-  FIREBASE_CLIENT_EMAIL: string;
-
-  @IsString()
-  FIREBASE_PRIVATE_KEY: string;
 
   // Database
   @IsString()

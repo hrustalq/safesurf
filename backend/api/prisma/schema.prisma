@@ -6,9 +6,248 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// User model with multiple auth methods
+model User {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  email         String?   @unique
+  password      String?   // Hashed password for email/password auth
+  name          String?
+  image         String?   // Profile image URL
+  
+  // OAuth related fields
+  yandexId      String?   @unique
+  
+  // Telegram related fields
+  telegramId    String?   @unique
+  telegramUsername String?
+  
+  // Account connections (for OAuth)
+  accounts      Account[]
+  sessions      Session[]
+
+  subscriptions Subscription[]
+
+  @@index([email])
+  @@index([yandexId])
+  @@index([telegramId])
+}
+
+// For OAuth accounts (including Yandex)
+model Account {
+  id                 String    @id @default(cuid())
+  userId             String
+  type               String    // "oauth", "credentials", "telegram"
+  provider           String    // "yandex", "email", "telegram"
+  providerAccountId  String
+  refresh_token      String?   @db.Text
+  access_token       String?   @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token          String?   @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+// Session management
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// For password reset and email verification
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Subscription Plans
+model Plan {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal       @db.Decimal(10, 2)
+  currency    String        @default("USD")
+  interval    PlanInterval  @default(MONTH)
+  features    Json?         // Store plan features as JSON
+  bandwidth   Int          // Bandwidth limit in GB
+  devices     Int          // Number of allowed devices
+  active      Boolean       @default(true)
+  
+  subscriptions Subscription[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([active])
+}
+
+enum PlanInterval {
+  MONTH
+  YEAR
+}
+
+// User Subscriptions
+model Subscription {
+  id            String             @id @default(cuid())
+  userId        String
+  planId        String
+  status        SubscriptionStatus @default(ACTIVE)
+  startDate     DateTime           @default(now())
+  endDate       DateTime
+  autoRenew     Boolean            @default(true)
+  bandwidthUsed Int                @default(0)  // Used bandwidth in GB
+  
+  // Payment related fields
+  lastPayment   DateTime?
+  nextPayment   DateTime?
+
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan          Plan               @relation(fields: [planId], references: [id])
+  vpnAccounts   VPNAccount[]
+
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+  EXPIRED
+}
+
+// VPN Server Management
+model VPNServer {
+  id          String       @id @default(cuid())
+  name        String      // e.g., "us-1", "eu-2"
+  subdomain   String      @unique // e.g., "us-1.safesurf.tech"
+  host        String      // Internal IP or hostname
+  port        Int         // 3x-ui panel port
+  panelPort   Int         // Panel access port
+  apiKey      String      // 3x-ui API key
+  location    String      // e.g., "US East", "Europe West"
+  countryCode String      // e.g., "US", "DE"
+  capacity    Int         // Maximum number of users
+  status      ServerStatus @default(ACTIVE)
+  
+  // 3x-ui specific fields
+  inbounds    VPNInbound[]
+  accounts    VPNAccount[]
+  
+  // Monitoring fields
+  lastPing        DateTime?
+  lastHealthCheck DateTime?
+  isHealthy       Boolean   @default(true)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([status])
+  @@index([location])
+  @@index([countryCode])
+}
+
+// New model for 3x-ui inbounds configuration
+model VPNInbound {
+  id          Int         @id // Using 3x-ui's inbound ID
+  serverId    String
+  protocol    VPNProtocol
+  port        Int
+  tag         String      // Inbound tag in 3x-ui
+  settings    Json        // Protocol settings
+  streamSettings Json     // TLS and transport settings
+  sniffing    Json?      // Sniffing settings
+  
+  server      VPNServer   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  accounts    VPNAccount[]
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([serverId, port])
+  @@index([serverId])
+}
+
+// Modified VPNProtocol enum to match 3x-ui supported protocols
+enum VPNProtocol {
+  VLESS
+  VMESS
+  TROJAN
+  SHADOWSOCKS
+}
+
+enum ServerStatus {
+  ACTIVE
+  MAINTENANCE
+  OFFLINE
+}
+
+// Modified VPNAccount model to match 3x-ui client structure
+model VPNAccount {
+  id             String    @id @default(cuid())
+  subscriptionId String
+  serverId       String
+  inboundId      Int      // References VPNInbound
+  uuid           String    @unique  // VPN client UUID
+  email          String?   // Optional email for account
+  
+  // 3x-ui specific settings
+  settings       Json      // Protocol-specific settings (e.g., encryption, network)
+  up             Int       @default(0)  // Upload traffic in bytes
+  down           Int       @default(0)  // Download traffic in bytes
+  total          Int       // Traffic limit in bytes
+  expiryTime     Int       // Timestamp for account expiry
+  enable         Boolean   @default(true)
+  
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  server         VPNServer   @relation(fields: [serverId], references: [id])
+  inbound        VPNInbound  @relation(fields: [inboundId], references: [id])
+  
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  lastUsed       DateTime?
+
+  @@index([subscriptionId])
+  @@index([serverId])
+  @@index([inboundId])
+}
+
+// Add traffic monitoring
+model TrafficLog {
+  id          String    @id @default(cuid())
+  accountId   String
+  serverId    String
+  timestamp   DateTime  @default(now())
+  upload      Int      // Upload bytes in period
+  download    Int      // Download bytes in period
+  period      String   // "hourly", "daily", "monthly"
+
+  @@index([accountId])
+  @@index([serverId])
+  @@index([timestamp])
 }

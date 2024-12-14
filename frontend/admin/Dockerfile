@@ -20,9 +20,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-EXPOSE 8080
-ENV PORT 8080
-ENV HOST 0.0.0.0
+EXPOSE ${PORT:-8080}
+ENV PORT=${PORT:-8080}
+ENV HOST "0.0.0.0"
 
 CMD ["npm", "run", "dev"]
 
@@ -46,6 +46,6 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Add nginx configuration for SPA
 RUN echo '{ "version": "'${VERSION:-dev}'" }' > /usr/share/nginx/html/version.json
 
-EXPOSE 8080
+EXPOSE ${PORT:-8080}
 
 CMD ["nginx", "-g", "daemon off;"] 

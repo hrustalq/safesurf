@@ -20,8 +20,9 @@ async function bootstrap() {
   // CORS configuration
   app.enableCors({
     origin: [
-      configService.get('ADMIN_URL', 'http://admin.localhost'),
-      configService.get('WEB_URL', 'http://localhost'),
+      ...configService.get('ALLOWED_ORIGINS', []).split(','),
+      configService.get('ADMIN_URL', 'https://admin.safesurf.local'),
+      configService.get('WEB_URL', 'https://safesurf.local'),
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,

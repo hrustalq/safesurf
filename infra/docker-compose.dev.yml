@@ -22,8 +22,8 @@ services:
       - ../backend/api:/app
       - /app/node_modules
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -33,14 +33,17 @@ services:
       context: ../frontend/admin
       dockerfile: Dockerfile
       target: development
+      args:
+        - PORT=${ADMIN_PORT:-8080}
     container_name: admin-dev
     restart: unless-stopped
     ports:
-      - "${ADMIN_PORT:-8080}:8080"
+      - "${ADMIN_PORT:-8080}:${ADMIN_PORT:-8080}"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV:-development}
       - VITE_API_URL=${API_URL}
       - VITE_PUBLIC_IS_HOSTING_API_KEY=${IS_HOSTING_API_KEY}
+      - PORT=${ADMIN_PORT:-8080}
     volumes:
       - ../frontend/admin:/app
       - /app/node_modules
@@ -52,13 +55,16 @@ services:
       context: ../frontend/web
       dockerfile: Dockerfile
       target: development
+      args:
+        - PORT=${WEB_PORT:-3001}
     container_name: web-dev
     restart: unless-stopped
     ports:
-      - "${WEB_PORT:-3001}:3000"
+      - "${WEB_PORT:-3001}:${WEB_PORT:-3001}"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV:-development}
       - NEXT_PUBLIC_API_URL=${API_URL}
+      - PORT=${WEB_PORT:-3001}
     volumes:
       - ../frontend/web:/app
       - /app/node_modules
@@ -76,6 +82,11 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - app-network
 
@@ -106,16 +117,27 @@ services:
   nginx:
     image: nginx:alpine
     container_name: nginx-dev
+    entrypoint: /docker-entrypoint.custom.sh
+    command: nginx -g 'daemon off;'
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/snippets:/etc/nginx/snippets
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/templates:/etc/nginx/templates
+      - ./nginx/docker-entrypoint.sh:/docker-entrypoint.custom.sh:ro
     depends_on:
       - api
       - admin
       - web
     networks:
       - app-network
+    environment:
+      - ADMIN_PORT=${ADMIN_PORT:-8080}
+      - WEB_PORT=${WEB_PORT:-3001}
+      - API_PORT=${API_PORT:-3000}
 
 networks:
   app-network:

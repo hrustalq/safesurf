@@ -1,6 +1,9 @@
 # Base stage for shared dependencies
 FROM node:20-alpine AS base
 
+# Install OpenSSL 3
+RUN apk add --no-cache openssl3
+
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
@@ -20,13 +23,14 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma client
-RUN npx prisma generate
+# Copy entrypoint script and make it executable
+COPY scripts/entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-EXPOSE 3000
-ENV PORT 3000
-ENV NODE_ENV development
+EXPOSE ${PORT:-3000}
+ENV PORT=${PORT:-3000}
 
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["npm", "run", "start:dev"]
 
 # Build stage
@@ -39,7 +43,6 @@ COPY . .
 RUN npx prisma generate
 
 ENV NODE_ENV production
-
 RUN npm run build
 
 # Production stage
@@ -52,7 +55,7 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nestjs
 
-# Install production dependencies
+# Copy production dependencies
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile --production; \
@@ -66,6 +69,10 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/prisma ./prisma
 
+# Copy entrypoint script and make it executable
+COPY scripts/entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Set permissions
 RUN chown -R nestjs:nodejs /app
 
@@ -74,4 +81,5 @@ USER nestjs
 EXPOSE 3000
 ENV PORT 3000
 
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["node", "dist/main"] 

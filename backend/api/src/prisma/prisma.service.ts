@@ -1,29 +1,50 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { PinoLogger } from 'nestjs-pino';
 import { performance } from 'perf_hooks';
 
+const createPrismaExtension = (logger: PinoLogger) => {
+  return Prisma.defineExtension({
+    name: 'prismaExtension',
+    query: {
+      async $allOperations({ operation, model, args, query }) {
+        const start = performance.now();
+        
+        try {
+          const result = await query(args);
+          
+          const end = performance.now();
+          const duration = end - start;
+          
+          logger.debug({
+            model,
+            operation,
+            duration: `${duration.toFixed(3)}ms`,
+            args
+          });
+
+          return result;
+        } catch (error) {
+          logger.error({
+            model,
+            operation,
+            args,
+            error
+          });
+          throw error;
+        }
+      }
+    }
+  });
+};
+
 @Injectable()
-export class PrismaService
-  extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy
-{
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor(private readonly logger: PinoLogger) {
-    super({
-      log: [
-        { emit: 'event', level: 'query' },
-        { emit: 'event', level: 'info' },
-        { emit: 'event', level: 'warn' },
-        { emit: 'event', level: 'error' },
-      ],
-    });
+    super();
     this.logger.setContext('PrismaService');
-  }
-
-  async onModuleInit() {
-    await this.$connect();
-
-    // Logging middleware
+    
+    // Add middleware for logging
     this.$use(async (params, next) => {
       const start = performance.now();
       const result = await next(params);
@@ -40,19 +61,12 @@ export class PrismaService
       return result;
     });
 
-    // Query logging
-    this.$on('query', (e: any) => {
-      this.logger.debug({
-        query: e.query,
-        params: e.params,
-        duration: `${e.duration}ms`,
-      });
-    });
+    // Apply the extension
+    (this as any).$extends(createPrismaExtension(this.logger));
+  }
 
-    // Error logging
-    this.$on('error', (e: any) => {
-      this.logger.error(e);
-    });
+  async onModuleInit() {
+    await this.$connect();
   }
 
   async onModuleDestroy() {

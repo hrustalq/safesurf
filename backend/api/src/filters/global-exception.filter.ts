@@ -7,8 +7,6 @@ import {
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { PinoLogger } from 'nestjs-pino';
-import * as Sentry from '@sentry/node';
-
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(
@@ -43,17 +41,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       statusCode,
       message,
     });
-
-    // Send error to Sentry if it's a server error
-    if (statusCode >= 500) {
-      Sentry.captureException(exception, {
-        extra: {
-          requestId,
-          path: request.url,
-          method: request.method,
-        },
-      });
-    }
 
     const responseBody = {
       statusCode,
