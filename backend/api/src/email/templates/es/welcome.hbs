@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  {{> styles}}
+</head>
+<body>
+  <div class="header">
+    <h1>¡Bienvenido, {{uppercase name}}!</h1>
+  </div>
+
+  <p>Gracias por unirte a nosotros. Estamos emocionados de tenerte a bordo.</p>
+  
+  <p>Te uniste el {{formatDate joinDate}}.</p>
+
+  <p>Para comenzar, verifica tu correo electrónico haciendo clic en el botón de abajo:</p>
+
+  <div style="text-align: center;">
+    <a href="{{verificationLink}}" class="button">
+      Verificar Correo
+    </a>
+  </div>
+
+  {{#if additionalInfo}}
+    <div class="additional-info">
+      <h2>Primeros Pasos</h2>
+      {{{additionalInfo}}}
+    </div>
+  {{/if}}
+
+  {{> footer_es}}
+</body>
+</html> 

@@ -1,0 +1,685 @@
+{
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "error": "Authentication Error"
+  },
+  "common": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "navigation": {
+    "home": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "download": "Download",
+    "support": "Support",
+    "menu": "Menu",
+    "language": "Language",
+    "english": "English",
+    "russian": "Русский",
+    "footerTagline": "Secure and private internet access anywhere",
+    "company": "Company",
+    "legal": "Legal",
+    "about": "About Us",
+    "contact": "Contact",
+    "blog": "Blog",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "faq": "FAQ",
+    "status": "System Status",
+    "allRightsReserved": "All rights reserved.",
+    "newsletter": "Newsletter",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe"
+  },
+  "home": {
+    "hero": {
+      "title": "Secure Your Online Privacy Anywhere",
+      "description": "Access the internet securely and privately with our high-speed VPN service. Protect your data with military-grade encryption.",
+      "cta": {
+        "primary": "Get Started",
+        "secondary": "Learn More"
+      }
+    },
+    "features": {
+      "title": "Why Choose Our VPN",
+      "subtitle": "Experience the best-in-class VPN service with features designed for your security and convenience.",
+      "security": {
+        "title": "Military-grade Security",
+        "description": "Protect your data with AES-256 encryption, the same standard used by security experts worldwide."
+      },
+      "global": {
+        "title": "Global Access",
+        "description": "Connect to servers in 90+ countries and access content from anywhere in the world."
+      },
+      "speed": {
+        "title": "Lightning Fast",
+        "description": "Experience high-speed connections with our optimized server network."
+      },
+      "privacy": {
+        "title": "Complete Privacy",
+        "description": "Browse with confidence knowing your activity is never logged or tracked."
+      }
+    },
+    "metadata": {
+      "title": "Secure VPN Service for Complete Online Privacy",
+      "description": "Get unlimited access to the internet with our fast and secure VPN service. Military-grade encryption, global server network, and 24/7 support."
+    }
+  },
+  "metadata": {
+    "site": {
+      "name": "VPN Service",
+      "title": "VPN Service - Secure Internet Access Worldwide",
+      "description": "Fast, secure, and private VPN service for all your devices. Protect your online privacy with military-grade encryption.",
+      "keywords": "vpn, security, privacy, encryption, internet security, online privacy"
+    }
+  },
+  "features": {
+    "metadata": {
+      "title": "VPN Features - Advanced Security & Privacy",
+      "description": "Explore our comprehensive VPN features including military-grade encryption, global server network, and advanced privacy protection."
+    },
+    "hero": {
+      "title": "Advanced Features for Complete Privacy",
+      "description": "Our VPN service comes packed with powerful features to protect your online privacy and enhance your internet experience."
+    },
+    "list": {
+      "security": {
+        "title": "Military-grade Security",
+        "description": "AES-256 encryption, the gold standard used by security professionals worldwide."
+      },
+      "global": {
+        "title": "Global Network",
+        "description": "Access points in 90+ countries for unrestricted internet access."
+      },
+      "speed": {
+        "title": "Lightning Fast",
+        "description": "Optimized servers providing the fastest possible connection speeds."
+      },
+      "privacy": {
+        "title": "Complete Privacy",
+        "description": "Strict no-logs policy ensures your online activity remains private."
+      },
+      "devices": {
+        "title": "Multi-device Support",
+        "description": "Connect all your devices with apps for every major platform."
+      },
+      "servers": {
+        "title": "Server Network",
+        "description": "1000+ servers optimized for streaming and downloading."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Expert help available around the clock whenever you need it."
+      },
+      "simultaneous": {
+        "title": "Multiple Devices",
+        "description": "Connect up to 6 devices simultaneously with one account."
+      }
+    }
+  },
+  "pricing": {
+    "metadata": {
+      "title": "VPN Pricing - Simple & Flexible Plans",
+      "description": "Choose the perfect VPN plan for your needs. Affordable monthly and yearly options with a 30-day money-back guarantee."
+    },
+    "hero": {
+      "title": "Simple, Transparent Pricing",
+      "description": "No hidden fees, no contracts. Choose the plan that works for you."
+    },
+    "popular": "Most Popular",
+    "plans": {
+      "monthly": {
+        "name": "Monthly Plan",
+        "price": "$12.99",
+        "description": "Perfect for short-term flexibility",
+        "cta": "Get Started",
+        "features": {
+          "1": "All VPN features",
+          "2": "Connect 6 devices",
+          "3": "24/7 support",
+          "4": "No bandwidth limits",
+          "5": "Global server access"
+        }
+      },
+      "yearly": {
+        "name": "Yearly Plan",
+        "price": "$6.99",
+        "description": "Save 46% with annual billing",
+        "cta": "Best Value",
+        "features": {
+          "1": "All VPN features",
+          "2": "Connect 6 devices",
+          "3": "24/7 priority support",
+          "4": "No bandwidth limits",
+          "5": "Global server access",
+          "6": "Advanced security features"
+        }
+      },
+      "business": {
+        "name": "Business Plan",
+        "price": "Custom",
+        "description": "Enterprise-grade VPN solution",
+        "cta": "Contact Sales",
+        "features": {
+          "1": "All VPN features",
+          "2": "Unlimited devices",
+          "3": "24/7 priority support",
+          "4": "Dedicated account manager",
+          "5": "Custom deployment",
+          "6": "Advanced security features",
+          "7": "Admin dashboard"
+        }
+      }
+    }
+  },
+  "download": {
+    "metadata": {
+      "title": "Download VPN - Apps for All Your Devices",
+      "description": "Download our VPN apps for Windows, Mac, Linux, Android, and iOS. Easy setup and instant protection for all your devices."
+    },
+    "hero": {
+      "title": "Download Our VPN Apps",
+      "description": "Protect all your devices with our easy-to-use apps. Simple setup and instant protection."
+    },
+    "version": "Version",
+    "client": "Recommended Client",
+    "requirements": "Requirements",
+    "platforms": {
+      "windows": {
+        "name": "Windows",
+        "requirements": "Windows 7 or later",
+        "cta": "Download v2rayN"
+      },
+      "mac": {
+        "name": "macOS",
+        "requirements": "macOS 10.13 or later",
+        "cta": "Download V2rayU"
+      },
+      "linux": {
+        "name": "Linux",
+        "requirements": "Most distributions",
+        "cta": "Download Qv2ray"
+      },
+      "android": {
+        "name": "Android",
+        "requirements": "Android 5.0 or later",
+        "cta": "Download v2rayNG"
+      },
+      "ios": {
+        "name": "iOS",
+        "requirements": "iOS 11.0 or later",
+        "cta": "Get Shadowrocket"
+      }
+    },
+    "guide": {
+      "title": "Easy Installation Guide",
+      "steps": {
+        "1": {
+          "title": "Download the Client",
+          "description": "Choose your platform above and download the recommended v2ray client for your device."
+        },
+        "2": {
+          "title": "Install and Configure",
+          "description": "Install the client and import your VLESS/VMESS configuration or scan the QR code."
+        },
+        "3": {
+          "title": "Connect and Enjoy",
+          "description": "Select your imported configuration and click connect to start protecting your privacy."
+        }
+      }
+    }
+  },
+  "support": {
+    "metadata": {
+      "title": "Support - Help & Documentation",
+      "description": "Get help with your VPN connection. Browse our documentation, FAQs, or contact our support team."
+    },
+    "hero": {
+      "title": "How Can We Help?",
+      "description": "Find answers in our documentation or get in touch with our support team."
+    },
+    "contact": {
+      "email": {
+        "title": "Email Support",
+        "description": "Send us a message and we'll get back to you within 24 hours.",
+        "cta": "Send Email"
+      },
+      "chat": {
+        "title": "Live Chat",
+        "description": "Chat with our support team for immediate assistance.",
+        "cta": "Start Chat"
+      },
+      "docs": {
+        "title": "Documentation",
+        "description": "Browse our guides and tutorials for detailed instructions.",
+        "cta": "View Docs"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "items": {
+        "1": {
+          "question": "How do I configure my v2ray client?",
+          "answer": "After installing your client, you can import your configuration either by pasting the VLESS/VMESS link or by scanning the QR code from your account dashboard."
+        },
+        "2": {
+          "question": "Which client should I use?",
+          "answer": "We recommend v2rayN for Windows, V2rayU for Mac, Qv2ray for Linux, v2rayNG for Android, and Shadowrocket for iOS. You can download these from our download page."
+        },
+        "3": {
+          "question": "Why is my connection slow?",
+          "answer": "Try selecting a server closer to your location, or switch between different protocols (VLESS/VMESS). Also ensure your client is up to date."
+        },
+        "4": {
+          "question": "How do I update my subscription?",
+          "answer": "In your v2ray client, find the subscription management section and click the update/refresh button. This will fetch the latest configuration."
+        },
+        "5": {
+          "question": "What if I can't connect?",
+          "answer": "First check if your configuration is current, try different servers, and ensure your client is updated. If issues persist, contact our support team."
+        }
+      }
+    }
+  },
+  "blog": {
+    "metadata": {
+      "title": "Blog - VPN Guides & Security Tips",
+      "description": "Learn about VPN security, privacy tips, and how to get the most out of your v2ray configuration."
+    },
+    "hero": {
+      "title": "Latest Articles",
+      "description": "Stay informed about online privacy, security best practices, and v2ray usage tips."
+    },
+    "readMore": "Read More",
+    "posts": {
+      "1": {
+        "title": "Getting Started with v2ray: A Beginner's Guide",
+        "excerpt": "Learn how to set up and configure your first v2ray client with our step-by-step guide for beginners.",
+        "author": "Tech Team",
+        "date": "2024-03-15",
+        "readTime": "5 min read",
+        "category": "Tutorial",
+        "slug": "getting-started-with-v2ray"
+      },
+      "2": {
+        "title": "VLESS vs VMESS: Understanding the Differences",
+        "excerpt": "Explore the key differences between VLESS and VMESS protocols to choose the best option for your needs.",
+        "author": "Security Expert",
+        "date": "2024-03-10",
+        "readTime": "7 min read",
+        "category": "Technical",
+        "slug": "vless-vs-vmess-comparison"
+      },
+      "3": {
+        "title": "Optimizing Your v2ray Configuration for Speed",
+        "excerpt": "Tips and tricks to improve your connection speed and reduce latency with v2ray.",
+        "author": "Performance Team",
+        "date": "2024-03-05",
+        "readTime": "6 min read",
+        "category": "Performance",
+        "slug": "optimizing-v2ray-speed"
+      },
+      "4": {
+        "title": "Best Practices for v2ray Security",
+        "excerpt": "Essential security practices to keep your v2ray connection safe and private.",
+        "author": "Security Team",
+        "date": "2024-03-01",
+        "readTime": "8 min read",
+        "category": "Security",
+        "slug": "v2ray-security-best-practices"
+      },
+      "5": {
+        "title": "Troubleshooting Common v2ray Issues",
+        "excerpt": "Solutions to the most common problems users face when using v2ray clients.",
+        "author": "Support Team",
+        "date": "2024-02-25",
+        "readTime": "10 min read",
+        "category": "Support",
+        "slug": "v2ray-troubleshooting-guide"
+      },
+      "6": {
+        "title": "Advanced v2ray Features You Should Know",
+        "excerpt": "Discover advanced features and configurations to enhance your v2ray experience.",
+        "author": "Tech Team",
+        "date": "2024-02-20",
+        "readTime": "12 min read",
+        "category": "Advanced",
+        "slug": "advanced-v2ray-features"
+      }
+    }
+  },
+  "contact": {
+    "metadata": {
+      "title": "Contact Us - Get in Touch",
+      "description": "Contact our support team for help with your VPN service. We're here to assist you 24/7."
+    },
+    "hero": {
+      "title": "Get in Touch",
+      "description": "Have questions? We're here to help with any inquiries about our VPN service."
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send Message"
+    },
+    "info": {
+      "title": "Contact Information",
+      "description": "Choose your preferred way to reach us."
+    },
+    "methods": {
+      "email": {
+        "title": "Email Support",
+        "description": "For general inquiries and support requests. We typically respond within 24 hours."
+      },
+      "chat": {
+        "title": "Live Chat",
+        "description": "Get immediate assistance from our support team.",
+        "linkText": "Start Chat"
+      },
+      "hours": {
+        "title": "Support Hours",
+        "description": "Our support team is available 24/7 to assist you with any questions."
+      }
+    }
+  },
+  "about": {
+    "metadata": {
+      "title": "About Us - Our Mission & Values",
+      "description": "Learn about our commitment to online privacy and security through advanced v2ray technology."
+    },
+    "hero": {
+      "title": "Our Mission is Your Privacy",
+      "description": "We're dedicated to providing secure, private, and unrestricted internet access through cutting-edge v2ray technology."
+    },
+    "mission": {
+      "title": "Why We Started",
+      "description": "Founded with a clear purpose: to provide everyone with secure and private internet access. We believe in the power of v2ray technology to protect digital privacy and maintain internet freedom."
+    },
+    "values": {
+      "title": "Our Core Values",
+      "privacy": {
+        "title": "Privacy First",
+        "description": "We prioritize your privacy above all else, ensuring your online activities remain completely confidential."
+      },
+      "community": {
+        "title": "Community Driven",
+        "description": "We actively engage with the v2ray community to provide the best possible service to our users."
+      },
+      "access": {
+        "title": "Universal Access",
+        "description": "We believe in providing unrestricted internet access to everyone, everywhere."
+      }
+    },
+    "stats": {
+      "users": {
+        "value": "50K+",
+        "label": "Active Users"
+      },
+      "servers": {
+        "value": "1000+",
+        "label": "Servers"
+      },
+      "locations": {
+        "value": "90+",
+        "label": "Locations"
+      },
+      "uptime": {
+        "value": "99.9%",
+        "label": "Uptime"
+      }
+    },
+    "technology": {
+      "title": "Our Technology",
+      "security": {
+        "title": "Advanced Security",
+        "description": "We utilize the latest v2ray protocols (VLESS/VMESS) with state-of-the-art encryption to ensure your connection remains secure."
+      },
+      "infrastructure": {
+        "title": "Robust Infrastructure",
+        "description": "Our network is built on high-performance servers strategically located worldwide for optimal speed and reliability."
+      },
+      "performance": {
+        "title": "Optimized Performance",
+        "description": "Our v2ray configurations are fine-tuned to provide the best balance of speed and security for all users."
+      }
+    }
+  },
+  "privacy": {
+    "metadata": {
+      "title": "Privacy Policy - Our Commitment to Your Privacy",
+      "description": "Learn about our strict privacy policy and how we protect your data using v2ray technology."
+    },
+    "hero": {
+      "title": "Privacy Policy",
+      "description": "Our commitment to protecting your privacy and personal data."
+    },
+    "lastUpdated": "Last updated: March 15, 2024",
+    "sections": {
+      "commitment": {
+        "title": "Our Privacy Commitment",
+        "description": "We are committed to protecting your privacy and personal data. Our service is built on the principle that your online activities should remain private and secure.\n\nUsing v2ray technology, we ensure that your connection is encrypted and your data remains confidential at all times."
+      },
+      "collection": {
+        "title": "Data Collection",
+        "description": "We maintain a strict no-logs policy. This means we do not collect or store:\n\n• Your browsing history\n• Traffic destination or content\n• DNS queries\n• IP addresses\n• Connection timestamps\n• Session duration\n\nThe only information we collect is what's necessary to maintain your account and provide our service."
+      },
+      "storage": {
+        "title": "Data Storage",
+        "description": "For account functionality, we store only:\n\n• Your email address\n• Encrypted account credentials\n• Subscription status\n\nAll v2ray configuration data is encrypted and stored securely."
+      },
+      "deletion": {
+        "title": "Data Deletion",
+        "description": "You can request deletion of your account and associated data at any time. Upon deletion:\n\n• All account information is permanently removed\n• V2ray configurations are immediately deleted\n• Subscription data is purged from our systems"
+      },
+      "security": {
+        "title": "Security Measures",
+        "description": "We implement robust security measures including:\n\n• End-to-end encryption using v2ray protocols (VLESS/VMESS)\n• Regular security audits\n• Secure server infrastructure\n• Protected configuration storage"
+      },
+      "transparency": {
+        "title": "Transparency",
+        "description": "We are committed to transparency regarding:\n\n• Our privacy practices\n• Security measures\n• Data handling procedures\n• Law enforcement policies\n\nWe will notify users of any changes to this privacy policy."
+      }
+    },
+    "contact": {
+      "title": "Privacy Concerns?",
+      "description": "If you have any questions about our privacy policy or data handling practices, please contact our privacy team."
+    }
+  },
+  "terms": {
+    "metadata": {
+      "title": "Terms of Service - Usage Terms & Conditions",
+      "description": "Read our terms of service and usage conditions for our v2ray VPN service."
+    },
+    "hero": {
+      "title": "Terms of Service",
+      "description": "Please read these terms carefully before using our service."
+    },
+    "lastUpdated": "Last updated: March 15, 2024",
+    "sections": {
+      "agreement": {
+        "title": "Service Agreement",
+        "description": "By using our v2ray VPN service, you agree to these terms and conditions:\n\n• You must be at least 18 years old\n• You are responsible for maintaining account security\n• You agree to provide accurate account information\n• You accept our privacy policy and data handling practices"
+      },
+      "acceptable": {
+        "title": "Acceptable Use",
+        "description": "Our service may be used for:\n\n• Protecting your online privacy\n• Securing your internet connection\n• Accessing geo-restricted content legally\n• Personal and business use within legal bounds\n\nAll usage must comply with applicable laws and regulations."
+      },
+      "prohibited": {
+        "title": "Prohibited Activities",
+        "description": "The following activities are strictly prohibited:\n\n• Any illegal activities\n• Sharing or reselling your account\n• Attempting to breach or bypass our security\n• Interfering with our service or servers\n• Violating third-party rights or terms\n• Automated or systematic data collection"
+      },
+      "compliance": {
+        "title": "Legal Compliance",
+        "description": "Users must comply with all applicable laws:\n\n• Local internet and privacy laws\n• Data protection regulations\n• Export control restrictions\n• Intellectual property rights\n\nWe reserve the right to cooperate with legal authorities when required."
+      },
+      "termination": {
+        "title": "Account Termination",
+        "description": "We may suspend or terminate accounts for:\n\n• Violation of these terms\n• Suspicious or abusive activity\n• Non-payment or payment disputes\n• Legal compliance requirements\n\nUsers may terminate their account at any time by contacting support."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "description": "We may update these terms:\n\n• With prior notice to users\n• For legal compliance\n• To reflect service changes\n• To improve clarity\n\nContinued use after changes constitutes acceptance of updated terms."
+      }
+    },
+    "contact": {
+      "title": "Questions About Terms?",
+      "description": "If you have any questions about our terms of service, please contact our legal team."
+    }
+  },
+  "cookies": {
+    "metadata": {
+      "title": "Cookie Policy - How We Use Cookies",
+      "description": "Learn about how we use cookies and similar technologies on our website."
+    },
+    "hero": {
+      "title": "Cookie Policy",
+      "description": "Understanding how we use cookies to improve your experience."
+    },
+    "lastUpdated": "Last updated: March 15, 2024",
+    "sections": {
+      "what": {
+        "title": "What Are Cookies",
+        "description": "Cookies are small text files that are stored on your device when you visit our website. They help us:\n\n• Remember your preferences\n• Understand how you use our service\n• Improve your browsing experience\n• Keep your account secure"
+      },
+      "necessary": {
+        "title": "Essential Cookies",
+        "description": "These cookies are required for our service to function properly:\n\n• Authentication cookies\n• Security tokens\n• Session management\n• Load balancing\n\nThese cookies cannot be disabled as they are essential for the service."
+      },
+      "functional": {
+        "title": "Functional Cookies",
+        "description": "These cookies enable enhanced functionality:\n\n• Language preferences\n• Theme settings\n• Server selection memory\n• Connection preferences\n\nYou can choose to disable these, but some features may not work properly."
+      },
+      "control": {
+        "title": "Cookie Control",
+        "description": "You can manage cookies through:\n\n• Browser settings\n• Our cookie preferences center\n• Third-party opt-out tools\n\nInstructions for managing cookies vary by browser and device."
+      },
+      "thirdParty": {
+        "title": "Third-Party Services",
+        "description": "We use limited third-party services for:\n\n• Payment processing\n• Analytics (anonymized)\n• Security monitoring\n\nThese services may use their own cookies, which are governed by their respective policies."
+      },
+      "duration": {
+        "title": "Cookie Duration",
+        "description": "Our cookies have different expiration periods:\n\n• Session cookies: Deleted when you close your browser\n• Persistent cookies: Last up to 12 months\n• Authentication cookies: Expire after logout\n\nYou can manually clear cookies at any time through your browser settings."
+      }
+    },
+    "contact": {
+      "title": "Questions About Cookies?",
+      "description": "If you have any questions about our use of cookies, please contact our privacy team."
+    }
+  },
+  "faq": {
+    "metadata": {
+      "title": "FAQ - Frequently Asked Questions",
+      "description": "Find answers to common questions about our v2ray VPN service, setup, and features."
+    },
+    "hero": {
+      "title": "How Can We Help?",
+      "description": "Find answers in our documentation or contact our support team."
+    },
+    "search": {
+      "placeholder": "Search for answers..."
+    },
+    "categories": {
+      "general": {
+        "title": "General Questions",
+        "1": {
+          "question": "What is v2ray VPN?",
+          "answer": "V2ray VPN is a modern protocol for secure and private internet access. It provides:\n\n• Enhanced privacy and security\n• Better performance than traditional VPNs\n• Advanced traffic routing\n• Resistance to blocking"
+        },
+        "2": {
+          "question": "How does v2ray differ from traditional VPN?",
+          "answer": "V2ray offers several advantages over traditional VPNs:\n\n• More sophisticated encryption methods\n• Better ability to bypass restrictions\n• Multiple protocol support (VLESS/VMESS)\n• Lower latency and higher speeds\n• More flexible routing options"
+        },
+        "3": {
+          "question": "Is the service legal to use?",
+          "answer": "Yes, our service is legal in most countries. However, you are responsible for:\n\n• Complying with local laws\n• Using the service ethically\n• Not engaging in illegal activities\n\nCheck your local regulations if unsure."
+        }
+      },
+      "technical": {
+        "title": "Technical Support",
+        "1": {
+          "question": "How do I set up the VPN?",
+          "answer": "Setting up our VPN is simple:\n\n1. Download our client app\n2. Log in with your account\n3. Choose a server location\n4. Connect with one click\n\nDetailed setup guides are available in our documentation."
+        },
+        "2": {
+          "question": "Which protocols do you support?",
+          "answer": "We support the latest v2ray protocols:\n\n• VLESS - Newer, more efficient protocol\n• VMESS - Established, reliable protocol\n\nBoth protocols offer excellent security and performance."
+        },
+        "3": {
+          "question": "Why is my connection slow?",
+          "answer": "Try these steps to improve speed:\n\n• Select a closer server\n• Switch between protocols (VLESS/VMESS)\n• Check your base internet speed\n• Update your client\n\nContact support if issues persist."
+        }
+      },
+      "account": {
+        "title": "Account & Billing",
+        "1": {
+          "question": "How many devices can I connect?",
+          "answer": "Our service allows:\n\n• Up to 6 devices simultaneously\n• Any combination of devices\n• Easy device management\n• Quick connection switching"
+        },
+        "2": {
+          "question": "How do I cancel my subscription?",
+          "answer": "To cancel your subscription:\n\n1. Log into your account\n2. Go to Subscription settings\n3. Click 'Cancel Subscription'\n4. Follow the prompts\n\nYou'll maintain access until the current period ends."
+        },
+        "3": {
+          "question": "Do you offer a money-back guarantee?",
+          "answer": "Yes, we offer a 30-day money-back guarantee:\n\n• No questions asked\n• Full refund if unsatisfied\n• Easy cancellation process\n• Quick refund processing"
+        }
+      }
+    },
+    "contact": {
+      "title": "Still Need Help?",
+      "description": "Can't find what you're looking for? Our support team is here to help 24/7."
+    }
+  },
+  "status": {
+    "metadata": {
+      "title": "System Status - Service Health & Uptime",
+      "description": "Check the current status and uptime of our VPN services and infrastructure."
+    },
+    "hero": {
+      "title": "System Status",
+      "description": "Monitor our service health and performance in real-time."
+    },
+    "overall": {
+      "title": "All Systems Operational",
+      "description": "All services are running normally. If you're experiencing issues, please contact support."
+    },
+    "status": {
+      "operational": "Operational",
+      "degraded": "Degraded Performance",
+      "outage": "Service Disruption"
+    },
+    "services": {
+      "title": "Service Status",
+      "uptime": "30-day uptime",
+      "vpn": {
+        "name": "VPN Service"
+      },
+      "auth": {
+        "name": "Authentication"
+      },
+      "api": {
+        "name": "API"
+      },
+      "website": {
+        "name": "Website"
+      },
+      "billing": {
+        "name": "Billing"
+      }
+    },
+    "incidents": {
+      "title": "Incident History",
+      "description": "View past incidents and maintenance reports on our status page.",
+      "link": "View Full Status Page"
+    }
+  }
+} 

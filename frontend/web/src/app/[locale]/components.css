@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .link {
+    @apply text-muted-foreground hover:text-primary transition-colors;
+  }
+}

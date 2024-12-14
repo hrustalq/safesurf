@@ -1,0 +1,261 @@
+version: '3.8'
+
+services:
+  # API Service
+  api:
+    build:
+      context: ../backend/api
+      dockerfile: Dockerfile
+      target: production
+    container_name: api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app-network
+
+  # Frontend Services
+  admin:
+    build:
+      context: ../frontend/admin
+      dockerfile: Dockerfile
+      target: production
+    container_name: admin-frontend
+    restart: unless-stopped
+    ports:
+      - "${ADMIN_PORT:-8080}:8080"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=${API_URL}
+      - VITE_PUBLIC_IS_HOSTING_API_KEY=${IS_HOSTING_API_KEY}
+    networks:
+      - app-network
+
+  web:
+    build:
+      context: ../frontend/web
+      dockerfile: Dockerfile
+      target: production
+    container_name: web-frontend
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-3001}:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${API_URL}
+    networks:
+      - app-network
+
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+  # MinIO (S3)
+  minio:
+    image: minio/minio
+    container_name: minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - app-network
+
+  # Email Testing
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"
+      - "${MAILHOG_WEB_PORT:-8025}:8025"
+    networks:
+      - app-network
+
+  # Elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "${ELASTICSEARCH_PORT:-9200}:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+
+  # Kibana
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.0
+    container_name: kibana
+    ports:
+      - "${KIBANA_PORT:-5601}:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - app-network
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - app-network
+
+  # Grafana
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - app-network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - app-network
+
+  # Sentry Services
+  sentry-postgres:
+    image: postgres:15-alpine
+    container_name: sentry-postgres
+    environment:
+      POSTGRES_USER: sentry
+      POSTGRES_PASSWORD: ${SENTRY_DB_PASSWORD:-sentry}
+      POSTGRES_DB: sentry
+    volumes:
+      - sentry_postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  sentry-redis:
+    image: redis:7-alpine
+    container_name: sentry-redis
+    networks:
+      - app-network
+
+  sentry:
+    image: getsentry/sentry:latest
+    container_name: sentry
+    depends_on:
+      - sentry-redis
+      - sentry-postgres
+    ports:
+      - "${SENTRY_PORT:-9000}:9000"
+    environment:
+      SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY}
+      SENTRY_POSTGRES_HOST: sentry-postgres
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: ${SENTRY_DB_PASSWORD:-sentry}
+      SENTRY_REDIS_HOST: sentry-redis
+    volumes:
+      - sentry_data:/var/lib/sentry/files
+    networks:
+      - app-network
+
+  sentry-cron:
+    image: getsentry/sentry:latest
+    container_name: sentry-cron
+    depends_on:
+      - sentry-redis
+      - sentry-postgres
+    command: "sentry run cron"
+    environment:
+      SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY}
+      SENTRY_POSTGRES_HOST: sentry-postgres
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: ${SENTRY_DB_PASSWORD:-sentry}
+      SENTRY_REDIS_HOST: sentry-redis
+    networks:
+      - app-network
+
+  sentry-worker:
+    image: getsentry/sentry:latest
+    container_name: sentry-worker
+    depends_on:
+      - sentry-redis
+      - sentry-postgres
+    command: "sentry run worker"
+    environment:
+      SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY}
+      SENTRY_POSTGRES_HOST: sentry-postgres
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: ${SENTRY_DB_PASSWORD:-sentry}
+      SENTRY_REDIS_HOST: sentry-redis
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+  elasticsearch_data:
+  prometheus_data:
+  grafana_data:
+  sentry_postgres_data:
+  sentry_redis_data:
+  sentry_data: 
